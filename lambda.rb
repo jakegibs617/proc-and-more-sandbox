@@ -117,3 +117,59 @@ print_list( [1,2,3], 23 ) { |n| "<#{n}>"}
 # <23> 1
 # <24> 2
 # <25> 3
+
+def palindrome?(input)
+  # if the input is a string, and letters in the alphabet... no numbers
+  if input =~ /[A-Za-z]/
+    # the input should be more than 1 character
+    if input.length >= 2
+
+      # break into characters
+      array = input.chars
+      
+      # remove spaces
+      if array.include?(" ")
+        array.delete(" ")
+      end
+
+      # take first and last and compare
+      a = array[0]
+      b = array[-1]
+      if a == b 
+        array.delete(a)
+        array.delete(b)
+        input = array.join
+
+        # this will be recursive, so if we get down to the last char, that is ok
+        if array.length <= 1
+          return true
+        else
+          # at this point we need to re-run the function recursively
+          palindrome?(input)
+        end
+      else
+        # else, the book ending chars are not equal thus not a palindrome
+        return false
+      end
+    else
+      # else the input was only one character, does not count
+      return false
+    end
+  else
+    # else the input was not a string
+    return false
+  end
+end
+
+p "cat: #{palindrome?("cat")}"
+p "noon: #{palindrome?("noon")}"
+p "race car: #{palindrome?("race car")}"
+p "' ': #{palindrome?(" ")}"
+p "asfh ded hfsa : #{palindrome?("asfh ded hfsa ")}"
+p "121 : #{palindrome?("121")}"
+# "cat: false"
+# "noon: true"
+# "race car: true"
+# "' ': false"
+# "asfh ded hfsa : true"
+# "121 : false"
