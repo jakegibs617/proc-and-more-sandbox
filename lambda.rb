@@ -95,11 +95,11 @@ def print_list(array, first = 1)
     counter = counter.next
   end
 end
-print_list(["Ruby", "Python", "C"]) 
+# print_list(["Ruby", "Python", "C"]) 
 # 1. Ruby
 # 2. Python
 # 3. C
-print_list(["a","b","c"], 99)
+# print_list(["a","b","c"], 99)
 # 99. a
 # 100. b
 # 101. c
@@ -113,7 +113,7 @@ def print_list(array, first = 1)
     counter = counter.next
   end
 end
-print_list( [1,2,3], 23 ) { |n| "<#{n}>"}
+# print_list( [1,2,3], 23 ) { |n| "<#{n}>"}
 # <23> 1
 # <24> 2
 # <25> 3
@@ -128,25 +128,35 @@ def palindrome?(input)
       array = input.chars
       
       # remove spaces
-      if array.include?(" ")
-        array.delete(" ")
-      end
+      # if array.include?(" ")
+      #   array.delete(" ")
+      # end
 
-      # take first and last and compare
-      a = array[0]
-      b = array[-1]
-      if a == b 
-        array.delete(a)
-        array.delete(b)
-        input = array.join
+      # refactored to lambda // remove spaces
+      # lam = lambda { array.delete(" ") if array.include?(" ") }
+      # lam.call
 
-        # this will be recursive, so if we get down to the last char, that is ok
-        if array.length <= 1
+      # refactored to one line terniary // remove spaces
+      array.delete(" ") if array.include?(" ") 
+
+      # save the first and last
+      first = array[0]
+      last = array[-1]
+
+      # compare the first and last
+      if first == last 
+ 
+        array.delete(first)
+        array.delete(last)
+
+        # this will be recursive, so if we get down to the last char, then it was successful
+        if array.length == 0 || array.length == 1
           return true
         else
-          # at this point we need to re-run the function recursively
-          palindrome?(input)
+        #   # at this point we need to re-run the function recursively
+          palindrome?(array.join)
         end
+
       else
         # else, the book ending chars are not equal thus not a palindrome
         return false
@@ -162,12 +172,14 @@ def palindrome?(input)
 end
 
 p "cat: #{palindrome?("cat")}"
+p "nocaton: #{palindrome?("nocaton")}"
 p "noon: #{palindrome?("noon")}"
 p "race car: #{palindrome?("race car")}"
 p "' ': #{palindrome?(" ")}"
 p "asfh ded hfsa : #{palindrome?("asfh ded hfsa ")}"
 p "121 : #{palindrome?("121")}"
 # "cat: false"
+# "nocaton: false"
 # "noon: true"
 # "race car: true"
 # "' ': false"
